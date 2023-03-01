@@ -8,8 +8,8 @@ const routes = {
     },
   },
   sign: {
-    in: () => '/sign/in',
-    up: () => '/sign/up',
+    in: () => '/sign-in',
+    up: () => '/sign-up',
   },
 };
 
