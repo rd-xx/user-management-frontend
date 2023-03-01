@@ -12,6 +12,24 @@ export async function isJwtValid(jwt: string) {
     .catch(() => false);
 }
 
+export async function signUp(
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string,
+  birthDate: string
+) {
+  const response = await axios.post(apiRoutes.user.sign.up(), {
+    firstName,
+    lastName,
+    email,
+    password,
+    birthDate,
+  });
+
+  return response.data.result;
+}
+
 export async function signIn(email: string, password: string) {
   const response = await axios.post(apiRoutes.user.sign.in(), {
     email,
