@@ -1,14 +1,14 @@
+import { useAppDispatch, useAppSelector } from '../utils/stores';
+import { selectSession, setJwt } from '../slices/session.slice';
 import FormField from '../components/ui/FormField';
-import { useAppDispatch } from '../utils/stores';
-import { setJwt } from '../slices/session.slice';
 import AlertUser from '../components/ui/Alert';
 import UserForm from '../components/ui/Form';
+import { useEffect, useState } from 'react';
 import { signIn } from '../services/api';
 import { useRouter } from 'next/router';
 import Page from '../components/Page';
 import routes from '../utils/routes';
 import { AxiosError } from 'axios';
-import { useState } from 'react';
 import * as yup from 'yup';
 
 const validationSchema = yup.object().shape({
@@ -25,6 +25,7 @@ export default function SignIn() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const hasJwtState = useAppSelector(selectSession).jwt !== null;
 
   async function handleSubmit({
     email,
@@ -48,6 +49,10 @@ export default function SignIn() {
       }
     }
   }
+
+  useEffect(() => {
+    if (hasJwtState) router.push(routes.home());
+  }, [hasJwtState, router]);
 
   return (
     <Page title="Sign in">
