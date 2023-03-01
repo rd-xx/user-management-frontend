@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Head from 'next/head';
+import Link from 'next/link';
 
 export default function Page(props: {
   title: string;
@@ -22,8 +23,12 @@ export default function Page(props: {
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 {props.title}
               </Typography>
-              <Button color="inherit">Sign in</Button>
-              <Button color="inherit">Sign up</Button>
+              <Button LinkComponent={Link} href="/sign-in" color="inherit">
+                Sign in
+              </Button>
+              <Button LinkComponent={Link} href="/sign-up" color="inherit">
+                Sign up
+              </Button>
             </Toolbar>
           </AppBar>
         </Grid>
