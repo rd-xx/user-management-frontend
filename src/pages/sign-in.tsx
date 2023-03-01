@@ -1,12 +1,15 @@
 import FormField from '../components/ui/FormField';
 import { useAppDispatch } from '../utils/stores';
+import { setJwt } from '../slices/session.slice';
+import AlertUser from '../components/ui/Alert';
 import UserForm from '../components/ui/Form';
 import { signIn } from '../services/api';
 import { useRouter } from 'next/router';
 import Page from '../components/Page';
-import * as yup from 'yup';
-import { setJwt } from '../slices/session.slice';
 import routes from '../utils/routes';
+import { AxiosError } from 'axios';
+import { useState } from 'react';
+import * as yup from 'yup';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email().required().label('E-mail'),
@@ -21,6 +24,7 @@ const initialValues = {
 export default function SignIn() {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit({
     email,
@@ -29,14 +33,20 @@ export default function SignIn() {
     email: string;
     password: string;
   }) {
-    console.log('inside submit');
+    setError(null);
 
-    const jwt = await signIn(email, password);
+    try {
+      const jwt = await signIn(email, password);
 
-    console.log(jwt);
-
-    dispatch(setJwt(jwt));
-    router.push(routes.home());
+      dispatch(setJwt(jwt));
+      router.push(routes.home());
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        const message = err.response?.data.error;
+        if (message) setError('- ' + message.join('\n- '));
+        else setError('An unexpected error occurred. Please try again later.');
+      }
+    }
   }
 
   return (
@@ -49,6 +59,7 @@ export default function SignIn() {
         <FormField name="email" label="Email" />
         <FormField name="password" label="Password" type="password" />
       </UserForm>
+      {error && <AlertUser message={error} severity="error" />}
     </Page>
   );
 }
