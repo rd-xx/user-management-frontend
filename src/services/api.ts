@@ -1,13 +1,18 @@
 import apiRoutes from '../utils/apiRoutes';
+import { User } from '../types/api.types';
 import axios from 'axios';
+
+function buildAxiosOptions(jwt: string) {
+  return {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  };
+}
 
 export async function isJwtValid(jwt: string) {
   return await axios
-    .get(apiRoutes.user.read.collection(), {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    })
+    .get(apiRoutes.user.read.collection(), buildAxiosOptions(jwt))
     .then(() => true)
     .catch(() => false);
 }
@@ -37,4 +42,22 @@ export async function signIn(email: string, password: string) {
   });
 
   return response.data.result;
+}
+
+export async function getUsers(jwt: string) {
+  const response = await axios.get(
+    apiRoutes.user.read.collection(),
+    buildAxiosOptions(jwt)
+  );
+
+  return response.data.result as User[];
+}
+
+export async function getUser(jwt: string, userId: string) {
+  const response = await axios.get(
+    apiRoutes.user.read.single(userId),
+    buildAxiosOptions(jwt)
+  );
+
+  return response.data.result as User;
 }

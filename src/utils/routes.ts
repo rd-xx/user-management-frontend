@@ -4,7 +4,7 @@ const routes = {
     create: () => '/users/create',
     read: {
       collection: () => '/users',
-      single: (userId: string) => `/users/${userId}`,
+      single: (userId: number) => `/users/${userId}`,
     },
   },
   sign: {
