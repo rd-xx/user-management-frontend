@@ -1,5 +1,5 @@
-import apiRoutes from '../utils/apiRoutes';
-import { User } from '../types/api.types';
+import apiRoutes from '@/utils/apiRoutes';
+import { User } from '@/types/api.types';
 import axios from 'axios';
 
 function buildAxiosOptions(jwt: string) {

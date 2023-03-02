@@ -1,17 +1,17 @@
-import { selectSession } from '@/src/slices/session.slice';
 import { useState, useCallback, useEffect } from 'react';
-import DisplayInfo from '@/src/components/ui/Display';
-import { useAppSelector } from '@/src/utils/stores';
+import { selectSession } from '@/slices/session.slice';
+import { dateToString } from '@/utils/transformations';
+import DisplayInfo from '@/components/ui/Display';
 import Typography from '@mui/material/Typography';
 import { GetServerSidePropsContext } from 'next';
-import Loader from '@/src/components/ui/Loader';
-import { getUser } from '@/src/services/api';
-import { User } from '@/src/types/api.types';
-import Page from '@/src/components/Page';
+import { useAppSelector } from '@/utils/stores';
+import Loader from '@/components/ui/Loader';
+import { getUser } from '@/services/api';
+import { User } from '@/types/api.types';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import Stack from '@mui/material/Stack';
-import { dateToString } from '@/src/utils/transformations';
+import Page from '@/components/Page';
+import axios from 'axios';
 
 export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
   return {

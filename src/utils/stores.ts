@@ -1,5 +1,5 @@
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
-import { sessionSlice } from '../slices/session.slice';
+import { sessionSlice } from '@/slices/session.slice';
 import { configureStore } from '@reduxjs/toolkit';
 
 export function makeStore() {

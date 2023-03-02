@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import Page from '../components/Page';
+import Page from '@/components/Page';
 
 export default function Home() {
   return (

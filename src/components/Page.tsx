@@ -1,8 +1,8 @@
-import { selectSession, setJwt, clear } from '../slices/session.slice';
-import { useAppDispatch, useAppSelector } from '../utils/stores';
+import { selectSession, setJwt, clear } from '@/slices/session.slice';
+import { useAppDispatch, useAppSelector } from '@/utils/stores';
 import Typography from '@mui/material/Typography';
 import { useCallback, useEffect } from 'react';
-import { isJwtValid } from '../services/api';
+import { isJwtValid } from '@/services/api';
 import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';

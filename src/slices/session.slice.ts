@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { AppState } from '../utils/stores';
-import { signIn } from '../services/api';
+import { AppState } from '@/utils/stores';
+import { signIn } from '@/services/api';
 
 export interface SessionState {
   jwt: string | null;

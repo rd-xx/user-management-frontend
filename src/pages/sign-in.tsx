@@ -1,13 +1,13 @@
-import { useAppDispatch, useAppSelector } from '../utils/stores';
-import { selectSession, setJwt } from '../slices/session.slice';
-import FormField from '../components/ui/FormField';
-import AlertUser from '../components/ui/Alert';
-import UserForm from '../components/ui/Form';
+import { useAppDispatch, useAppSelector } from '@/utils/stores';
+import { selectSession, setJwt } from '@/slices/session.slice';
+import FormField from '@/components/ui/FormField';
+import AlertUser from '@/components/ui/Alert';
+import UserForm from '@/components/ui/Form';
 import { useEffect, useState } from 'react';
-import { signIn } from '../services/api';
+import { signIn } from '@/services/api';
 import { useRouter } from 'next/router';
-import Page from '../components/Page';
-import routes from '../utils/routes';
+import Page from '@/components/Page';
+import routes from '@/utils/routes';
 import { AxiosError } from 'axios';
 import * as yup from 'yup';
 

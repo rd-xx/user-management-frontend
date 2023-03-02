@@ -1,22 +1,22 @@
-import { dateToString } from '@/src/utils/transformations';
-import { selectSession } from '@/src/slices/session.slice';
 import TableContainer from '@mui/material/TableContainer';
 import { useCallback, useEffect, useState } from 'react';
+import { dateToString } from '@/utils/transformations';
+import { selectSession } from '@/slices/session.slice';
 import TableFooter from '@mui/material/TableFooter';
-import { useAppSelector } from '@/src/utils/stores';
-import Loader from '@/src/components/ui/Loader';
+import { useAppSelector } from '@/utils/stores';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { getUsers } from '@/src/services/api';
-import { User } from '@/src/types/api.types';
-import Page from '@/src/components/Page';
+import Loader from '@/components/ui/Loader';
+import { getUsers } from '@/services/api';
+import { User } from '@/types/api.types';
 import { useRouter } from 'next/router';
-import routes from '@/src/utils/routes';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
+import Page from '@/components/Page';
+import routes from '@/utils/routes';
 import axios from 'axios';
 
 export default function Users() {
