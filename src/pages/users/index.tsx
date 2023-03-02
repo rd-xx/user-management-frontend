@@ -20,29 +20,35 @@ import routes from '@/utils/routes';
 import axios from 'axios';
 
 export default function Users() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const jwtState = useAppSelector(selectSession).jwt;
-  const router = useRouter();
+  const [users, setUsers] = useState<User[]>([]),
+    [error, setError] = useState<string | null>(null),
+    jwtState = useAppSelector(selectSession).jwt,
+    router = useRouter(),
+    fetchUsers = useCallback(async () => {
+      setError(null);
 
-  const fetchUsers = useCallback(async () => {
-    setError(null);
+      try {
+        if (!jwtState) throw new Error('No JWT found.');
 
-    try {
-      const response = await getUsers(jwtState!);
-      setUsers(response);
-    } catch (err) {
-      if (err instanceof axios.AxiosError) {
-        const message = err.response?.data.error;
-        if (message) setError('- ' + message.join('\n- '));
-        else setError('An unexpected error occurred. Please try again later.');
+        const response = await getUsers(jwtState);
+        setUsers(response);
+      } catch (err) {
+        if (err instanceof axios.AxiosError) {
+          const message = err.response?.data.error;
+          if (message)
+            setError(
+              typeof message === 'string'
+                ? message
+                : '- ' + (message as string[]).join('\n- ')
+            );
+          else
+            setError('An unexpected error occurred. Please try again later.');
+        }
       }
-    }
-  }, [jwtState]);
-
-  const handleClick = (user: User) => {
-    router.push(routes.users.read.single(user.id));
-  };
+    }, [jwtState]),
+    handleClick = (user: User) => {
+      void router.push(routes.users.read.single(user.id));
+    };
 
   useEffect(() => {
     /**
@@ -50,21 +56,20 @@ export default function Users() {
      * he will be redirected to the sign-in page.
      * He shouldn't.
      */
-    if (!jwtState) router.push(routes.sign.in());
-    else if (users.length === 0) fetchUsers();
+    if (!jwtState) void router.push(routes.sign.in());
+    else if (users.length === 0) void fetchUsers();
   }, [fetchUsers, jwtState, router, users.length]);
 
   /**
    * A loading state is useless here because if the user has access to this page,
    * it means there is AT LEAST one user in the database, so the array should never be empty.
    */
-  if (!users.length && error === null) {
+  if (!users.length && error === null)
     return (
       <Page title="Users">
         <Loader />
       </Page>
     );
-  }
 
   if (error !== null) return <Page title="Users">{error}</Page>;
   else

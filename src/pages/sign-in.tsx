@@ -10,48 +10,47 @@ import Page from '@/components/Page';
 import routes from '@/utils/routes';
 import { AxiosError } from 'axios';
 import * as yup from 'yup';
+import { SignInParameters } from '@/types/api.types';
 
 const validationSchema = yup.object().shape({
-  email: yup.string().email().required().label('E-mail'),
-  password: yup.string().min(8).required().label('Password'),
-});
-
-const initialValues = {
-  email: '',
-  password: '',
-};
+    email: yup.string().email().required().label('E-mail'),
+    password: yup.string().min(8).required().label('Password')
+  }),
+  initialValues = {
+    email: '',
+    password: ''
+  };
 
 export default function SignIn() {
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
-  const hasJwtState = useAppSelector(selectSession).jwt !== null;
+  const dispatch = useAppDispatch(),
+    router = useRouter(),
+    [error, setError] = useState<string | null>(null),
+    hasJwtState = useAppSelector(selectSession).jwt !== null;
 
-  async function handleSubmit({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) {
+  async function handleSubmit(parameters: SignInParameters) {
     setError(null);
 
     try {
-      const jwt = await signIn(email, password);
+      const jwt = await signIn(parameters);
 
       dispatch(setJwt(jwt));
-      router.push(routes.home());
+      await router.push(routes.home());
     } catch (err) {
       if (err instanceof AxiosError) {
         const message = err.response?.data.error;
-        if (message) setError('- ' + message.join('\n- '));
+        if (message)
+          setError(
+            typeof message === 'string'
+              ? message
+              : '- ' + (message as string[]).join('\n- ')
+          );
         else setError('An unexpected error occurred. Please try again later.');
       }
     }
   }
 
   useEffect(() => {
-    if (hasJwtState) router.push(routes.home());
+    if (hasJwtState) void router.push(routes.home());
   }, [hasJwtState, router]);
 
   return (

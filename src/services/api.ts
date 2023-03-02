@@ -1,12 +1,12 @@
+import { SignInParameters, SignUpParameters, User } from '@/types/api.types';
 import apiRoutes from '@/utils/apiRoutes';
-import { User } from '@/types/api.types';
 import axios from 'axios';
 
 function buildAxiosOptions(jwt: string) {
   return {
     headers: {
-      Authorization: `Bearer ${jwt}`,
-    },
+      Authorization: `Bearer ${jwt}`
+    }
   };
 }
 
@@ -17,31 +17,25 @@ export async function isJwtValid(jwt: string) {
     .catch(() => false);
 }
 
-export async function signUp(
-  firstName: string,
-  lastName: string,
-  email: string,
-  password: string,
-  birthDate: string
-) {
+export async function signUp(parameters: SignUpParameters) {
   const response = await axios.post(apiRoutes.user.sign.up(), {
-    firstName,
-    lastName,
-    email,
-    password,
-    birthDate,
+    firstName: parameters.firstName,
+    lastName: parameters.lastName,
+    email: parameters.email,
+    password: parameters.password,
+    birthDate: parameters.birthDate
   });
 
-  return response.data.result;
+  return response.data.result as User;
 }
 
-export async function signIn(email: string, password: string) {
+export async function signIn(parameters: SignInParameters) {
   const response = await axios.post(apiRoutes.user.sign.in(), {
-    email,
-    password,
+    email: parameters.email,
+    password: parameters.password
   });
 
-  return response.data.result;
+  return response.data.result as string;
 }
 
 export async function getUsers(jwt: string) {

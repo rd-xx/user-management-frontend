@@ -2,6 +2,7 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { TextField } from '@mui/material';
 import { useField } from 'formik';
+import { DateTime } from 'luxon';
 
 export default function FormField(props: {
   name: string;
@@ -28,7 +29,7 @@ export default function FormField(props: {
         <DatePicker
           value={field.value}
           onChange={(value) => {
-            setValue(value.toISO());
+            setValue((value as DateTime).toISO());
           }}
           renderInput={(params) => (
             <TextField

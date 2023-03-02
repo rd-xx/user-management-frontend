@@ -6,6 +6,6 @@ export default function Custom404() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push(routes.home());
+    void router.push(routes.home());
   }, [router]);
 }

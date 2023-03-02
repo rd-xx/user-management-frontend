@@ -1,3 +1,4 @@
+import { SignInParameters, SignUpParameters } from '@/types/api.types';
 import { Formik, Form as FormikForm } from 'formik';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -6,8 +7,8 @@ import Box from '@mui/system/Box';
 import * as yup from 'yup';
 
 export default function Form(props: {
-  onSubmit: (values: any) => void;
-  initialValues: Record<string, unknown>;
+  onSubmit: (values: SignInParameters | SignUpParameters) => Promise<void>;
+  initialValues: SignInParameters | SignUpParameters;
   validationSchema: yup.Schema;
   children: React.ReactNode;
 }) {

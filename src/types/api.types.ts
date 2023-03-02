@@ -7,3 +7,16 @@ export type User = {
   lastName: string;
   birthDate: string;
 };
+
+export type SignUpParameters = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+};
+
+export type SignInParameters = {
+  email: string;
+  password: string;
+};
